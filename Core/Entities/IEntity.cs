@@ -1,4 +1,4 @@
-﻿namespace Entities.Absract
+﻿namespace Core.Entities
 {
     public interface IEntity
     {
