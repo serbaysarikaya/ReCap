@@ -8,11 +8,17 @@ namespace TestConsoleUI // Note: actual namespace depends on the project name.
         static void Main(string[] args)
         {
             CarManager carManager = new CarManager(new EfCarDal());
-            foreach (var car in carManager.GetCarDetails())
+
+            var result = carManager.GetCarDetails();
+            if (result.Success)
             {
 
-                Console.WriteLine($"CarName: {car.CarName} \nColor: {car.ColorName} \nBrand: {car.BrandName} \nPrice: {car.DailyPrice}");
-                Console.WriteLine(" <<<<<<<----------->>>>>");
+                foreach (var car in result.Data)
+                {
+
+                    Console.WriteLine($"CarName: {car.CarName} \nColor: {car.ColorName} \nBrand: {car.BrandName} \nPrice: {car.DailyPrice}");
+                    Console.WriteLine(" <<<<<<<----------->>>>>");
+                }
             }
 
         }
