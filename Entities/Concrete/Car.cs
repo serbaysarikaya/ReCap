@@ -11,7 +11,5 @@ namespace Entities.Concrete
         public int ModelYear { get; set; }
         public double DailyPrice { get; set; }//DailyPrice
         public string Description { get; set; }
-        public virtual Brand Brand { get; set; }
-        public virtual Color Color { get; set; }
     }
 }

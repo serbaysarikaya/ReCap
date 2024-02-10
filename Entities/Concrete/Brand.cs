@@ -6,11 +6,6 @@ namespace Entities.Concrete
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public virtual ICollection<Car>? Cars { get; }
 
-        public Brand()
-        {
-            Cars = new HashSet<Car>();
-        }
     }
 }
