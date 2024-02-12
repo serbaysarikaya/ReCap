@@ -1,5 +1,7 @@
 ﻿using Bussines.Absract;
 using Bussines.Constants;
+using Bussines.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Absract;
 using Entities.Concrete;
@@ -16,70 +18,51 @@ namespace Bussines.Concrete
             _carDal = carDal;
         }
 
+        [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
-            if (car.CarName.Length > 2 && car.DailyPrice > 0)
-            {
-                _carDal.Add(car);
-                return new SuccessResult(Messages.Added);
-            }
-            else if (car.CarName.Length <= 2)
-            {
-                Console.WriteLine("Araba ismi 2 karakterden fazla olmalı");
-                return new ErrorResult(Messages.Error);
-            }
-            else if (car.DailyPrice <= 0)
-            {
-                Console.WriteLine("Günülük üçret 0' dan büyük olmalı");
-                return new ErrorResult(Messages.Error);
-            }
-            else
-            {
-                Console.WriteLine("Araba ismi 2 karakterden büyük ve günlük ücreti 0'dan büyük olmalıdır.");
-                return new ErrorResult(Messages.Error);
-            }
+            //iş kodları
+
+            _carDal.Add(car);
+            return new SuccessResult(Messages.CarAdded);
         }
 
         public IResult Delete(Car car)
         {
             _carDal.Delete(car);
-            return new SuccessResult(Messages.Deleted);
+            return new SuccessResult(Messages.CarDeleted);
         }
 
         public IDataResult<List<Car>> GetAll()
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.Listed);
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.CarsListed);
+        }
+
+        public IDataResult<Car> GetById(int id)
+        {
+            return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == id), Messages.CarsListed);
         }
 
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), Messages.Listed);
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), Messages.CarsDetailListed);
         }
 
-        public IDataResult<List<Car>> GetCarsByBrandId(int id)
+        public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(p => p.BrandId == id), Messages.Listed);
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(car => car.BrandId == brandId), Messages.CarsListedByBrandId);
         }
 
-        public IDataResult<List<Car>> GetCarsByColorId(int id)
+        public IDataResult<List<Car>> GetCarsByColorId(int colorId)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == id), Messages.Listed);
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(car => car.ColorId == colorId), Messages.CarsListedByColorId);
         }
 
-        public IDataResult<List<Car>> GetCarsDailyPrice()
-        {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.DailyPrice > 0), Messages.Listed);
-        }
-
-        public IDataResult<List<Car>> GetCarsNameLength()
-        {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(P => P.Description.Length > 2), Messages.Listed);
-        }
-
+        [ValidationAspect(typeof(CarValidator))]
         public IResult Update(Car car)
         {
             _carDal.Update(car);
-            return new SuccessResult(Messages.Updated);
+            return new SuccessResult(Messages.CarUpdated);
         }
     }
 }

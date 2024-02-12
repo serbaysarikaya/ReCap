@@ -67,10 +67,10 @@ namespace WebAPI.Controllers
             return BadRequest(result.Message);
         }
 
-        [HttpGet("getcarsdailyprice")]
-        public IActionResult GetCarsDailyPrice()
+        [HttpGet("getbyid")]
+        public IActionResult GetById(int id)
         {
-            var result = _carService.GetCarsDailyPrice();
+            var result = _carService.GetById(id);
 
             if (result.Success)
             {
@@ -80,18 +80,7 @@ namespace WebAPI.Controllers
             return BadRequest(result.Message);
 
         }
-        [HttpGet("getcarsnamelength")]
-        public IActionResult GetCarsNameLength()
-        {
-            var result = _carService.GetCarsNameLength();
 
-            if (result.Success)
-            {
-                return Ok(result.Data);
-            }
-
-            return BadRequest(result.Message);
-        }
 
         [HttpPost("add")]
         public IActionResult Add(Car car)

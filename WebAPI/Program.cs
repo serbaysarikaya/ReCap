@@ -1,7 +1,7 @@
-using Bussines.Absract;
-using Bussines.Concrete;
-using DataAccess.Absract;
-using DataAccess.Concrete.EntityFramework;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Bussines.DependencyResolvers.Autofac;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,18 +12,28 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IUserService, UserManager>();
-builder.Services.AddSingleton<IUserDal, EfUserDal>();
-builder.Services.AddSingleton<IRentalService, RentalManager>();
-builder.Services.AddSingleton<IRentalDal, EfRentalDal>();
-builder.Services.AddScoped<ICarService, CarManager>();
-builder.Services.AddScoped<ICarDal, EfCarDal>();
-builder.Services.AddSingleton<IColorService, ColorManager>();
-builder.Services.AddSingleton<IColorDal, EfColorDal>();
-builder.Services.AddSingleton<ICarService, CarManager>();
-builder.Services.AddSingleton<ICarDal, EfCarDal>();
-builder.Services.AddSingleton<IBrandService, BrandManager>();
-builder.Services.AddSingleton<IBrandDal, EfBrandDal>();
+//builder.Services.AddSingleton<IUserService, UserManager>();
+//builder.Services.AddSingleton<IUserDal, EfUserDal>();
+//builder.Services.AddSingleton<IRentalService, RentalManager>();
+//builder.Services.AddSingleton<IRentalDal, EfRentalDal>();
+//builder.Services.AddScoped<ICarService, CarManager>();
+//builder.Services.AddScoped<ICarDal, EfCarDal>();
+//builder.Services.AddSingleton<IColorService, ColorManager>();
+//builder.Services.AddSingleton<IColorDal, EfColorDal>();
+//builder.Services.AddSingleton<ICarService, CarManager>();
+//builder.Services.AddSingleton<ICarDal, EfCarDal>();
+//builder.Services.AddSingleton<IBrandService, BrandManager>();
+//builder.Services.AddSingleton<IBrandDal, EfBrandDal>();
+
+
+
+
+builder.Host
+       .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+       .ConfigureContainer<ContainerBuilder>(builder =>
+       {
+           builder.RegisterModule(new AutofacBusinessModule());
+       });
 
 
 
