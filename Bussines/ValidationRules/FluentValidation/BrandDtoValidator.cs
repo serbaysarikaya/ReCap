@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace Bussines.ValidationRules.FluentValidation
 {
-    public class BrandValidator : AbstractValidator<Brand>
+    public class BrandDtoValidator : AbstractValidator<Brand>
     {
-        public BrandValidator()
+        public BrandDtoValidator()
         {
             RuleFor(b => b.Name).NotEmpty();
             RuleFor(b => b.Name).MinimumLength(3);

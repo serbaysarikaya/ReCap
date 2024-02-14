@@ -1,15 +1,16 @@
 ﻿using Core.Utilities.Results;
-using Entities.Concrete;
+using Entities.DTOs;
 
 namespace Bussines.Absract
 {
     public interface IBrandService
     {
-        IDataResult<List<Brand>> GetAll();
-        IDataResult<Brand> GetById(int id);
-        IResult Add(Brand brand);
-        IResult Update(Brand brand);
-        IResult Delete(Brand brand);
+        IDataResult<List<BrandDto>> GetAll();
+        IResult Add(BrandDto brandDto);
+        IResult Update(BrandDto brandDto);
+        IResult Delete(BrandDto brandDto);
+        IDataResult<BrandDto> GetById(int id);
+
     }
 }
 /*

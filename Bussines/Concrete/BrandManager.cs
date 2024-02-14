@@ -1,53 +1,59 @@
-﻿using Bussines.Absract;
+﻿using AutoMapper;
+using Bussines.Absract;
 using Bussines.Constants;
 using Bussines.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Absract;
 using Entities.Concrete;
+using Entities.DTOs;
 
 namespace Bussines.Concrete
 {
     public class BrandManager : IBrandService
     {
 
-
         IBrandDal _brandDal;
+        IMapper _mapper;
 
         public BrandManager(IBrandDal brandDal)
         {
             _brandDal = brandDal;
         }
-
-        [ValidationAspect(typeof(BrandValidator))]
-        public IResult Add(Brand brand)
+        public BrandManager(IBrandDal brandDal, IMapper mapper)
         {
-            _brandDal.Add(brand);
+            _brandDal = brandDal;
+            _mapper = mapper;
+        }
+
+        [ValidationAspect(typeof(BrandDtoValidator))]
+        public IResult Add(BrandDto brandDto)
+        {
+            _brandDal.Add(_mapper.Map<Brand>(brandDto));
             return new SuccessResult(Messages.BrandAdded);
-
         }
 
-        public IResult Delete(Brand brand)
+        public IResult Delete(BrandDto brandDto)
         {
-            _brandDal.Delete(brand);
+            _brandDal.Delete(_mapper.Map<Brand>(brandDto));
             return new SuccessResult(Messages.BrandDeleted);
-
         }
 
-        public IDataResult<List<Brand>> GetAll()
+        public IDataResult<List<BrandDto>> GetAll()
         {
-            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(), Messages.BrandsListed);
+            return new SuccessDataResult<List<BrandDto>>(_mapper.Map<List<BrandDto>>(_brandDal.GetAll()), Messages.BrandsListed);
         }
 
-        public IDataResult<Brand> GetById(int id)
+        public IDataResult<BrandDto> GetById(int id)
         {
-            return new SuccessDataResult<Brand>(_brandDal.Get(b => b.Id == id), Messages.BrandsListed);
+            return new SuccessDataResult<BrandDto>(_mapper.Map<BrandDto>(_brandDal.Get(p => p.Id == id)), Messages.BrandsListed);
         }
 
-        [ValidationAspect(typeof(BrandValidator))]
-        public IResult Update(Brand brand)
+        [ValidationAspect(typeof(BrandDtoValidator))]
+
+        public IResult Update(BrandDto brandDto)
         {
-            _brandDal.Update(brand);
+            _brandDal.Update(_mapper.Map<Brand>(brandDto));
             return new SuccessResult(Messages.BrandUpdated);
         }
     }

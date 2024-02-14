@@ -11,5 +11,15 @@ namespace Entities.Concrete
         public string Email { get; set; }
         public string Password { get; set; }
 
+        public DateTime CreatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
+        public DateTime DeletedDate { get; set; }
+
+        public virtual ICollection<Customer> Customers { get; }
+
+        public User()
+        {
+            Customers = new HashSet<Customer>();
+        }
     }
 }

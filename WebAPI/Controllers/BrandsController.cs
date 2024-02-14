@@ -1,5 +1,5 @@
 ﻿using Bussines.Absract;
-using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -14,6 +14,7 @@ namespace WebAPI.Controllers
         {
             _brandService = brandService;
         }
+
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
@@ -22,56 +23,56 @@ namespace WebAPI.Controllers
             {
                 return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest(result);
         }
-
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
-            var resaaul = _brandService.GetById(id);
-            if (resaaul.Success)
+            var result = _brandService.GetById(id);
+            if (result.Success)
             {
-                return Ok(resaaul.Data);
-            }
-            else
-            {
-                return BadRequest(resaaul.Message);
-            }
+                return Ok(result);
 
+            }
+            return BadRequest(result);
         }
+
+
 
         [HttpPost("add")]
-        public IActionResult Add(Brand brand)
+        public IActionResult Add(BrandDto brandDto)
         {
-            var result = _brandService.Add(brand);
+            var result = _brandService.Add(brandDto);
             if (result.Success)
             {
-                return Ok(result.Message);
+                return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest(result);
         }
 
-        [HttpPut("update")]
-        public IActionResult Update(Brand brand)
-        {
-            var resul = _brandService.Update(brand);
-            if (resul.Success)
-            {
-                return Ok(resul.Message);
 
-            }
-            return BadRequest(resul.Message);
-        }
-
-        [HttpDelete("delete")]
-        public IActionResult Delete(Brand brand)
+        [HttpPost("update")]
+        public IActionResult Update(BrandDto brandDto)
         {
-            var result = _brandService.Delete(brand);
+            var result = _brandService.Update(brandDto);
             if (result.Success)
             {
-                return Ok(result.Message);
+                return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest(result);
+        }
+
+        [HttpPost("delete")]
+        public IActionResult Delete(BrandDto brandDto)
+        {
+            var result = _brandService.Delete(brandDto);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+
         }
     }
 }
+

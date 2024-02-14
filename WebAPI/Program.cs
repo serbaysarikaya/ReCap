@@ -1,5 +1,6 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Bussines.AutoMappers;
 using Bussines.DependencyResolvers.Autofac;
 
 
@@ -27,6 +28,16 @@ builder.Services.AddSwaggerGen();
 
 
 
+
+//AutoMapper
+
+builder.Services.AddAutoMapper(typeof(CarMapper));
+builder.Services.AddAutoMapper(typeof(BrandMapper));
+builder.Services.AddAutoMapper(typeof(ColorMapper));
+builder.Services.AddAutoMapper(typeof(CustomerMapper));
+builder.Services.AddAutoMapper(typeof(RentalMapper));
+builder.Services.AddAutoMapper(typeof(UserMapper));
+//builder.Services.AddAutoMapper(typeof(CarImageManager));
 
 builder.Host
        .UseServiceProviderFactory(new AutofacServiceProviderFactory())
