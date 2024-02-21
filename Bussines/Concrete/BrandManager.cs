@@ -30,23 +30,23 @@ namespace Bussines.Concrete
         public IResult Add(BrandDto brandDto)
         {
             _brandDal.Add(_mapper.Map<Brand>(brandDto));
-            return new SuccessResult(Messages.BrandAdded);
+            return new SuccessResult(BrandMessages.BrandAdded);
         }
 
         public IResult Delete(BrandDto brandDto)
         {
             _brandDal.Delete(_mapper.Map<Brand>(brandDto));
-            return new SuccessResult(Messages.BrandDeleted);
+            return new SuccessResult(BrandMessages.BrandDeleted);
         }
 
         public IDataResult<List<BrandDto>> GetAll()
         {
-            return new SuccessDataResult<List<BrandDto>>(_mapper.Map<List<BrandDto>>(_brandDal.GetAll()), Messages.BrandsListed);
+            return new SuccessDataResult<List<BrandDto>>(_mapper.Map<List<BrandDto>>(_brandDal.GetAll()), BrandMessages.BrandsListed);
         }
 
         public IDataResult<BrandDto> GetById(int id)
         {
-            return new SuccessDataResult<BrandDto>(_mapper.Map<BrandDto>(_brandDal.Get(p => p.Id == id)), Messages.BrandsListed);
+            return new SuccessDataResult<BrandDto>(_mapper.Map<BrandDto>(_brandDal.Get(p => p.Id == id)), BrandMessages.BrandsListed);
         }
 
         [ValidationAspect(typeof(BrandDtoValidator))]
@@ -54,7 +54,7 @@ namespace Bussines.Concrete
         public IResult Update(BrandDto brandDto)
         {
             _brandDal.Update(_mapper.Map<Brand>(brandDto));
-            return new SuccessResult(Messages.BrandUpdated);
+            return new SuccessResult(BrandMessages.BrandUpdated);
         }
     }
 }

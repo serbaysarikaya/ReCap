@@ -9,6 +9,8 @@ using DataAccess.Absract;
 using Entities.Concrete;
 using Entities.DTOs;
 
+
+
 namespace Bussines.Concrete
 {
     public class CarManager : ICarService
@@ -32,7 +34,7 @@ namespace Bussines.Concrete
 
             ValidationTool.Validate(new CarDtoValidator(), carDto);
             _carDal.Add(_mapper.Map<Car>(carDto));
-            return new SuccessResult(Messages.CarAdded);
+            return new SuccessResult(CarMessages.CarAdded);
         }
 
 
@@ -40,22 +42,22 @@ namespace Bussines.Concrete
         public IResult Delete(CarDto carDto)
         {
             _carDal.Delete(_mapper.Map<Car>(carDto));
-            return new SuccessResult(Messages.CarDeleted);
+            return new SuccessResult(CarMessages.CarDeleted);
         }
 
         public IDataResult<List<CarDto>> GetAll()
         {
-            return new SuccessDataResult<List<CarDto>>(_mapper.Map<List<CarDto>>(_carDal.GetAll()), Messages.CarsListed);
+            return new SuccessDataResult<List<CarDto>>(_mapper.Map<List<CarDto>>(_carDal.GetAll()), CarMessages.CarsListed);
         }
 
         public IDataResult<CarDto> GetById(int id)
         {
-            return new SuccessDataResult<CarDto>(_mapper.Map<CarDto>(_carDal.Get(p => p.Id == id)), Messages.CarsListed);
+            return new SuccessDataResult<CarDto>(_mapper.Map<CarDto>(_carDal.Get(p => p.Id == id)), CarMessages.CarsListed);
         }
 
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), Messages.CarsListed);
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), CarMessages.CarsListed);
         }
 
         [ValidationAspect(typeof(CarDtoValidator))]
@@ -63,7 +65,7 @@ namespace Bussines.Concrete
         public IResult Update(CarDto carDto)
         {
             _carDal.Update(_mapper.Map<Car>(carDto));
-            return new SuccessResult(Messages.CarUpdated);
+            return new SuccessResult(CarMessages.CarUpdated);
 
         }
     }

@@ -30,30 +30,30 @@ namespace Bussines.Concrete
         public IResult Add(ColorDto colorDto)
         {
             _colorDal.Add(_mapper.Map<Color>(colorDto));
-            return new SuccessResult(Messages.ColorAdded);
+            return new SuccessResult(ColorMessages.ColorAdded);
         }
 
         public IResult Delete(ColorDto colorDto)
         {
             _colorDal.Delete(_mapper.Map<Color>(colorDto));
-            return new SuccessResult(Messages.ColorDeleted);
+            return new SuccessResult(ColorMessages.ColorDeleted);
         }
 
         public IDataResult<List<ColorDto>> GetAll()
         {
-            return new SuccessDataResult<List<ColorDto>>(_mapper.Map<List<ColorDto>>(_colorDal.GetAll()), Messages.ColorsListed);
+            return new SuccessDataResult<List<ColorDto>>(_mapper.Map<List<ColorDto>>(_colorDal.GetAll()), ColorMessages.ColorsListed);
         }
 
         public IDataResult<ColorDto> GetById(int id)
         {
-            return new SuccessDataResult<ColorDto>(_mapper.Map<ColorDto>(_colorDal.Get(p => p.Id == id)), Messages.ColorsListed);
+            return new SuccessDataResult<ColorDto>(_mapper.Map<ColorDto>(_colorDal.Get(p => p.Id == id)), ColorMessages.ColorsListed);
         }
 
         [ValidationAspect(typeof(ColorDtoValidator))]
         public IResult Update(ColorDto colorDto)
         {
             _colorDal.Update(_mapper.Map<Color>(colorDto));
-            return new SuccessResult(Messages.ColorUpdated);
+            return new SuccessResult(ColorMessages.ColorUpdated);
         }
     }
 }

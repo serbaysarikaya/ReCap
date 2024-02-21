@@ -10,7 +10,7 @@ namespace Bussines.ValidationRules.FluentValidation
         {
 
             RuleFor(c => c.Name).NotEmpty();
-            RuleFor(c => c.Name).Must(ValidColorName).WithMessage(Messages.ColorNameMustContainOnlyLetter);
+            RuleFor(c => c.Name).Must(ValidColorName).WithMessage(ColorMessages.ColorNameMustContainOnlyLetter);
             RuleFor(c => c.Name).MinimumLength(2);
 
         }

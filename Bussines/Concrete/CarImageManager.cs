@@ -35,7 +35,7 @@ namespace Bussines.Concrete
 
             carImageDto.ImagePath = _fileHelper.Upload(file, PathConstants.ImagesPath);
             _carImageDal.Add(_mapper.Map<CarImage>(carImageDto));
-            return new SuccessResult(Messages.CarImageAdded);
+            return new SuccessResult(CarImageMessages.CarImageAdded);
 
         }
 
@@ -43,12 +43,12 @@ namespace Bussines.Concrete
         {
             _fileHelper.Delete(PathConstants.ImagesPath + carImageDto.ImagePath);
             _carImageDal.Delete(_mapper.Map<CarImage>(carImageDto));
-            return new SuccessResult(Messages.CarImageDeleted);
+            return new SuccessResult(CarImageMessages.CarImageDeleted);
         }
 
         public IDataResult<List<CarImageDto>> GetAll()
         {
-            return new SuccessDataResult<List<CarImageDto>>(_mapper.Map<List<CarImageDto>>(_carImageDal.GetAll()), Messages.CarImagesListed);
+            return new SuccessDataResult<List<CarImageDto>>(_mapper.Map<List<CarImageDto>>(_carImageDal.GetAll()), CarImageMessages.CarImagesListed);
         }
 
         public IDataResult<List<CarImageDto>> GetByCarId(int carId)
@@ -60,14 +60,14 @@ namespace Bussines.Concrete
                 return new ErrorDataResult<List<CarImageDto>>(GetDefaultImage(carId).Data, result.Message);
             }
 
-            return new SuccessDataResult<List<CarImageDto>>(_mapper.Map<List<CarImageDto>>(_carImageDal.GetAll(c => c.CarId == carId)), Messages.CarImagesListed);
+            return new SuccessDataResult<List<CarImageDto>>(_mapper.Map<List<CarImageDto>>(_carImageDal.GetAll(c => c.CarId == carId)), CarImageMessages.CarImagesListed);
 
 
         }
 
         public IDataResult<CarImageDto> GetByImageId(int imageId)
         {
-            return new SuccessDataResult<CarImageDto>(_mapper.Map<CarImageDto>(_carImageDal.Get(c => c.Id == imageId)), Messages.CarImagesListed);
+            return new SuccessDataResult<CarImageDto>(_mapper.Map<CarImageDto>(_carImageDal.Get(c => c.Id == imageId)), CarImageMessages.CarImagesListed);
         }
 
         public IResult Update(IFormFile file, CarImageDto carImageDto)
@@ -91,7 +91,7 @@ namespace Bussines.Concrete
             int carImagesCount = _carImageDal.GetAll(c => c.CarId == carId).Count;
             if (carImagesCount >= 5)
             {
-                return new ErrorResult(Messages.ExceedsMaxCarImagesMessage);
+                return new ErrorResult(CarImageMessages.ExceedsMaxCarImagesMessage);
             }
             return new SuccessResult();
 
@@ -103,7 +103,7 @@ namespace Bussines.Concrete
             {
                 return new SuccessResult();
             }
-            return new ErrorResult(Messages.DefaultCarImageMessage);
+            return new ErrorResult(CarImageMessages.DefaultCarImageMessage);
         }
     }
 }

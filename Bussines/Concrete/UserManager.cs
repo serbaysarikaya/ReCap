@@ -25,18 +25,18 @@ namespace Bussines.Concrete
         public IResult Add(UserDto userDto)
         {
             _userDal.Add(_mapper.Map<User>(userDto));
-            return new SuccessResult(Messages.UserAdded);
+            return new SuccessResult(UserMessages.UserAdded);
         }
 
         public IResult Delete(UserDto userDto)
         {
             _userDal.Delete(_mapper.Map<User>(userDto));
-            return new SuccessResult(Messages.UserDeleted);
+            return new SuccessResult(UserMessages.UserDeleted);
         }
 
         public IDataResult<List<UserDto>> GetAll()
         {
-            return new SuccessDataResult<List<UserDto>>(_mapper.Map<List<UserDto>>(_userDal.GetAll()), Messages.UsersListed);
+            return new SuccessDataResult<List<UserDto>>(_mapper.Map<List<UserDto>>(_userDal.GetAll()), UserMessages.UsersListed);
         }
 
         public IDataResult<UserDto> GetById(int id)
@@ -44,10 +44,10 @@ namespace Bussines.Concrete
             var result = _mapper.Map<UserDto>(_userDal.Get(p => p.Id == id));
             if (result == null)
             {
-                return new ErrorDataResult<UserDto>(Messages.Error);
+                return new ErrorDataResult<UserDto>(UserMessages.Error);
 
             }
-            return new SuccessDataResult<UserDto>(result, Messages.UsersListed);
+            return new SuccessDataResult<UserDto>(result, UserMessages.UsersListed);
 
 
 
@@ -57,7 +57,7 @@ namespace Bussines.Concrete
         public IResult Update(UserDto userDto)
         {
             _userDal.Update(_mapper.Map<User>(userDto));
-            return new SuccessResult(Messages.UserUpdated);
+            return new SuccessResult(UserMessages.UserUpdated);
         }
     }
 }

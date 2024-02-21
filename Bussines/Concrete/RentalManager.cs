@@ -31,13 +31,13 @@ namespace Bussines.Concrete
             var isAvailable = _rentalDal.GetAll(p => p.CarId == rentalDto.CarId && p.ReturnDate == null).Any();
             if (isAvailable == true)
             {
-                return new ErrorResult(Messages.CarIsNotAvailable);
+                return new ErrorResult(RentalMessages.CarIsNotAvailable);
 
             }
             else
             {
                 _rentalDal.Add(_mapper.Map<Rental>(rentalDto));
-                return new SuccessResult(Messages.RentalAdded);
+                return new SuccessResult(RentalMessages.RentalAdded);
             }
 
         }
@@ -46,24 +46,24 @@ namespace Bussines.Concrete
         {
 
             _rentalDal.Delete(_mapper.Map<Rental>(rentalDto));
-            return new SuccessResult(Messages.RentalDeleted);
+            return new SuccessResult(RentalMessages.RentalDeleted);
         }
 
         public IDataResult<List<RentalDto>> GetAll()
         {
-            return new SuccessDataResult<List<RentalDto>>(_mapper.Map<List<RentalDto>>(_rentalDal.GetAll()), Messages.RentalsListed);
+            return new SuccessDataResult<List<RentalDto>>(_mapper.Map<List<RentalDto>>(_rentalDal.GetAll()), RentalMessages.RentalsListed);
         }
 
         public IDataResult<RentalDto> GetById(int id)
         {
-            return new SuccessDataResult<RentalDto>(_mapper.Map<RentalDto>(_rentalDal.Get(p => p.Id == id)), Messages.RentalsListed);
+            return new SuccessDataResult<RentalDto>(_mapper.Map<RentalDto>(_rentalDal.Get(p => p.Id == id)), RentalMessages.RentalsListed);
         }
 
         [ValidationAspect(typeof(RentalDtoValidator))]
         public IResult Update(RentalDto rentalDto)
         {
             _rentalDal.Update(_mapper.Map<Rental>(rentalDto));
-            return new SuccessResult(Messages.RentalUpdated);
+            return new SuccessResult(RentalMessages.RentalUpdated);
 
 
         }
