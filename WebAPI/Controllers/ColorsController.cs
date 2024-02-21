@@ -1,5 +1,5 @@
 ﻿using Bussines.Absract;
-using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -15,6 +15,7 @@ namespace WebAPI.Controllers
             _colorService = colorService;
         }
 
+
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
@@ -22,57 +23,53 @@ namespace WebAPI.Controllers
             if (result.Success)
             {
                 return Ok(result);
-            }
-            return BadRequest(result.Message);
-        }
 
+            }
+            return BadRequest(result);
+        }
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
-            var resaaul = _colorService.GetById(id);
-            if (resaaul.Success)
-            {
-                return Ok(resaaul.Data);
-            }
-            else
-            {
-                return BadRequest(resaaul.Message);
-            }
-
-        }
-
-        [HttpPost("add")]
-        public IActionResult Add(Color color)
-        {
-            var result = _colorService.Add(color);
+            var result = _colorService.GetById(id);
             if (result.Success)
             {
-                return Ok(result.Message);
+                return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest(result);
         }
 
-        [HttpPut("update")]
-        public IActionResult Update(Color color)
-        {
-            var resul = _colorService.Update(color);
-            if (resul.Success)
-            {
-                return Ok(resul.Message);
 
+        [HttpPost("add")]
+        public IActionResult Add(ColorDto colorDto)
+        {
+            var result = _colorService.Add(colorDto);
+            if (result.Success)
+            {
+                return Ok(result);
             }
-            return BadRequest(resul.Message);
+            return BadRequest(result);
         }
 
         [HttpDelete("delete")]
-        public IActionResult Delete(Color color)
+        public IActionResult Delete(ColorDto colorDto)
         {
-            var result = _colorService.Delete(color);
+            var result = _colorService.Delete(colorDto);
             if (result.Success)
             {
-                return Ok(result.Message);
+                return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest(result);
+
+        }
+        [HttpPut("update")]
+        public IActionResult Update(ColorDto colorDto)
+        {
+            var result = _colorService.Update(colorDto);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
     }
 }

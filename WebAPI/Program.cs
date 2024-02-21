@@ -1,7 +1,8 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Business.DependencyResolvers.Autofac;
 using Bussines.AutoMappers;
-using Bussines.DependencyResolvers.Autofac;
+using Bussines.Concrete;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,7 +38,7 @@ builder.Services.AddAutoMapper(typeof(ColorMapper));
 builder.Services.AddAutoMapper(typeof(CustomerMapper));
 builder.Services.AddAutoMapper(typeof(RentalMapper));
 builder.Services.AddAutoMapper(typeof(UserMapper));
-//builder.Services.AddAutoMapper(typeof(CarImageManager));
+builder.Services.AddAutoMapper(typeof(CarImageManager));
 
 builder.Host
        .UseServiceProviderFactory(new AutofacServiceProviderFactory())
@@ -57,6 +58,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 

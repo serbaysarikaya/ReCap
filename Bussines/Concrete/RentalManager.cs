@@ -1,50 +1,71 @@
-﻿using Bussines.Absract;
-using Bussines.Constants;
+﻿using AutoMapper;
+using Bussines.Absract;
+using Bussines.Constants.Messages;
 using Bussines.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Absract;
 using Entities.Concrete;
+using Entities.DTOs;
 
 namespace Bussines.Concrete
 {
     public class RentalManager : IRentalService
     {
         IRentalDal _rentalDal;
+        IMapper _mapper;
 
         public RentalManager(IRentalDal rentalDal)
         {
             _rentalDal = rentalDal;
         }
-
-        [ValidationAspect(typeof(RentalValidator))]
-        public IResult Add(Rental rental)
+        public RentalManager(IRentalDal rentalDal, IMapper mapper)
         {
-            _rentalDal.Add(rental);
-            return new SuccessResult(Messages.RentalAdded);
+            _rentalDal = rentalDal;
+            _mapper = mapper;
         }
 
-        public IResult Delete(Rental rental)
+        [ValidationAspect(typeof(RentalDtoValidator))]
+        public IResult Add(RentalDto rentalDto)
         {
-            _rentalDal.Delete(rental);
+            var isAvailable = _rentalDal.GetAll(p => p.CarId == rentalDto.CarId && p.ReturnDate == null).Any();
+            if (isAvailable == true)
+            {
+                return new ErrorResult(Messages.CarIsNotAvailable);
+
+            }
+            else
+            {
+                _rentalDal.Add(_mapper.Map<Rental>(rentalDto));
+                return new SuccessResult(Messages.RentalAdded);
+            }
+
+        }
+
+        public IResult Delete(RentalDto rentalDto)
+        {
+
+            _rentalDal.Delete(_mapper.Map<Rental>(rentalDto));
             return new SuccessResult(Messages.RentalDeleted);
         }
 
-        public IDataResult<List<Rental>> GetAll()
+        public IDataResult<List<RentalDto>> GetAll()
         {
-            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(), Messages.RentalsListed);
+            return new SuccessDataResult<List<RentalDto>>(_mapper.Map<List<RentalDto>>(_rentalDal.GetAll()), Messages.RentalsListed);
         }
 
-        public IDataResult<Rental> GetById(int id)
+        public IDataResult<RentalDto> GetById(int id)
         {
-            return new SuccessDataResult<Rental>(_rentalDal.Get(c => c.Id == id), Messages.RentalsListed);
+            return new SuccessDataResult<RentalDto>(_mapper.Map<RentalDto>(_rentalDal.Get(p => p.Id == id)), Messages.RentalsListed);
         }
 
-        [ValidationAspect(typeof(RentalValidator))]
-        public IResult Update(Rental rental)
+        [ValidationAspect(typeof(RentalDtoValidator))]
+        public IResult Update(RentalDto rentalDto)
         {
-            _rentalDal.Update(rental);
+            _rentalDal.Update(_mapper.Map<Rental>(rentalDto));
             return new SuccessResult(Messages.RentalUpdated);
+
+
         }
     }
 }

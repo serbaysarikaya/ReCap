@@ -1,5 +1,5 @@
 ﻿using Bussines.Absract;
-using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -13,6 +13,7 @@ namespace WebAPI.Controllers
         public RentalsController(IRentalService rentalService)
         {
             _rentalService = rentalService;
+
         }
 
         [HttpGet("getall")]
@@ -23,56 +24,51 @@ namespace WebAPI.Controllers
             {
                 return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest(result);
         }
-
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
-            var resaaul = _rentalService.GetById(id);
-            if (resaaul.Success)
-            {
-                return Ok(resaaul.Data);
-            }
-            else
-            {
-                return BadRequest(resaaul.Message);
-            }
-
-        }
-
-        [HttpPost("add")]
-        public IActionResult Add(Rental rental)
-        {
-            var result = _rentalService.Add(rental);
+            var result = _rentalService.GetById(id);
             if (result.Success)
             {
-                return Ok(result.Message);
+                return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest(result);
         }
 
-        [HttpPut("update")]
-        public IActionResult Update(Rental rental)
-        {
-            var resul = _rentalService.Update(rental);
-            if (resul.Success)
-            {
-                return Ok(resul.Message);
 
+        [HttpPost("add")]
+        public IActionResult Add(RentalDto rentalDto)
+        {
+            var result = _rentalService.Add(rentalDto);
+            if (result.Success)
+            {
+                return Ok(result);
             }
-            return BadRequest(resul.Message);
+            return BadRequest(result);
         }
 
         [HttpDelete("delete")]
-        public IActionResult Delete(Rental rental)
+        public IActionResult Delete(RentalDto rentalDto)
         {
-            var result = _rentalService.Delete(rental);
+            var result = _rentalService.Delete(rentalDto);
             if (result.Success)
             {
-                return Ok(result.Message);
+                return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest(result);
+
+        }
+        [HttpPut("update")]
+        public IActionResult Update(RentalDto rentalDto)
+        {
+            var result = _rentalService.Update(rentalDto);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
     }
 }

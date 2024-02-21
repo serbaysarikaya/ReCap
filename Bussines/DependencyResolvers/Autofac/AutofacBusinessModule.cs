@@ -3,21 +3,22 @@ using Autofac.Extras.DynamicProxy;
 using Bussines.Absract;
 using Bussines.Concrete;
 using Castle.DynamicProxy;
+using Core.Utilities.Helpers.FileHelper;
 using Core.Utilities.Interceptors;
 using DataAccess.Absract;
 using DataAccess.Concrete.EntityFramework;
 
-namespace Bussines.DependencyResolvers.Autofac
+namespace Business.DependencyResolvers.Autofac
 {
     public class AutofacBusinessModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<CarManager>().As<ICarService>().SingleInstance();//ICarService istenirse ona CarManager instance'ı ver demek.
+            builder.RegisterType<EfCarDal>().As<ICarDal>().SingleInstance();
+
             builder.RegisterType<BrandManager>().As<IBrandService>().SingleInstance();
             builder.RegisterType<EfBrandDal>().As<IBrandDal>().SingleInstance();
-
-            builder.RegisterType<CarManager>().As<ICarService>().SingleInstance();
-            builder.RegisterType<EfCarDal>().As<ICarDal>().SingleInstance();
 
             builder.RegisterType<ColorManager>().As<IColorService>().SingleInstance();
             builder.RegisterType<EfColorDal>().As<IColorDal>().SingleInstance();
@@ -31,8 +32,13 @@ namespace Bussines.DependencyResolvers.Autofac
             builder.RegisterType<UserManager>().As<IUserService>().SingleInstance();
             builder.RegisterType<EfUserDal>().As<IUserDal>().SingleInstance();
 
-            //builder.RegisterType<CarImageManager>().As<ICarImageService>().SingleInstance();
-            //builder.RegisterType<EfCarImageDal>().As<ICarImageDal>().SingleInstance();
+            builder.RegisterType<CarImageManager>().As<ICarImageService>().SingleInstance();
+            builder.RegisterType<EfCarImageDal>().As<ICarImageDal>().SingleInstance();
+
+
+
+            builder.RegisterType<FileHeplerManager>().As<IFileHelper>().SingleInstance();
+
 
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
@@ -44,8 +50,6 @@ namespace Bussines.DependencyResolvers.Autofac
                 }).SingleInstance();
 
 
-
         }
-
     }
 }

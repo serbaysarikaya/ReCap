@@ -1,4 +1,4 @@
-﻿namespace Bussines.Constants
+﻿namespace Bussines.Constants.Messages
 {
     public static class Messages
     {
@@ -50,5 +50,7 @@
         public static string CarImagesListed = "Araba Resimleri Listelendi";
         public static string DefaultCarImageMessage = "Resim bulunamadığından varsayılan resim verisi gösterildi.";
         public static string ExceedsMaxCarImagesMessage = "1 araba için 5 ten fazla resim eklenemez. Maksimum sınıra ulaşıldıç";
+
+        public static string Error = "İşlem Başarısız";
     }
 }

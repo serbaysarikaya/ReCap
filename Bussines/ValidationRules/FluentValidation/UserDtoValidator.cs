@@ -1,6 +1,6 @@
 ﻿namespace Bussines.ValidationRules.FluentValidation
 {
-    using Bussines.Constants;
+    using Bussines.Constants.Messages;
     using Entities.Concrete;
     using global::FluentValidation;
     using System.Linq;
@@ -8,9 +8,9 @@
 
     namespace Business.ValidationRules.FluentValidation
     {
-        public class UserValidator : AbstractValidator<User>
+        public class UserDtoValidator : AbstractValidator<User>
         {
-            public UserValidator()
+            public UserDtoValidator()
             {
                 RuleFor(u => u.FirstName).NotEmpty();
                 RuleFor(u => u.FirstName).MinimumLength(2);

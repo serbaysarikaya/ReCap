@@ -1,6 +1,6 @@
 ﻿using Bussines.Concrete;
 using DataAccess.Concrete.EntityFramework;
-using Entities.Concrete;
+using Entities.DTOs;
 
 
 namespace TestConsoleUI // Note: actual namespace depends on the project name.
@@ -22,7 +22,7 @@ namespace TestConsoleUI // Note: actual namespace depends on the project name.
         private static void ColorAddTest()
         {
             ColorManager colorManager = new ColorManager(new EfColorDal());
-            var result = colorManager.Add(new Color { Name = "Brown" });
+            var result = colorManager.Add(new ColorDto { Name = "Brown" });
 
             if (result.Success)
             {

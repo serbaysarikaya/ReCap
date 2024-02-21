@@ -1,5 +1,5 @@
 ﻿using Bussines.Absract;
-using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
@@ -15,69 +15,61 @@ namespace WebAPI.Controllers
             _customerService = customerService;
         }
 
+
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
             var result = _customerService.GetAll();
             if (result.Success)
             {
-                return Ok(result.Data);
-            }
-            else
-            {
-                return BadRequest(result.Message);
-            }
-        }
+                return Ok(result);
 
+            }
+            return BadRequest(result);
+        }
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
             var result = _customerService.GetById(id);
             if (result.Success)
             {
-
-                return Ok(result.Data);
-
+                return Ok(result);
             }
-            else
-            {
-                return BadRequest(result.Message);
-            }
-
+            return BadRequest(result);
         }
+
 
         [HttpPost("add")]
-        public IActionResult Add(Customer customer)
+        public IActionResult Add(CustomerDto customerDto)
         {
-            var result = _customerService.Add(customer);
+            var result = _customerService.Add(customerDto);
             if (result.Success)
             {
-                return Ok(result.Message);
+                return Ok(result);
             }
-            return BadRequest(result.Message);
-        }
-
-        [HttpPut("update")]
-        public IActionResult Update(Customer customer)
-        {
-            var resul = _customerService.Update(customer);
-            if (resul.Success)
-            {
-                return Ok(resul.Message);
-
-            }
-            return BadRequest(resul.Message);
+            return BadRequest(result);
         }
 
         [HttpDelete("delete")]
-        public IActionResult Delete(Customer customer)
+        public IActionResult Delete(CustomerDto customerDto)
         {
-            var result = _customerService.Delete(customer);
+            var result = _customerService.Delete(customerDto);
             if (result.Success)
             {
-                return Ok(result.Message);
+                return Ok(result);
             }
-            return BadRequest(result.Message);
+            return BadRequest(result);
+
+        }
+        [HttpPut("update")]
+        public IActionResult Update(CustomerDto customerDto)
+        {
+            var result = _customerService.Update(customerDto);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
         }
 
 

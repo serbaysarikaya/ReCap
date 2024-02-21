@@ -1,7 +1,9 @@
-﻿using Bussines.Absract;
-using Bussines.Constants;
+﻿using AutoMapper;
+using Bussines.Absract;
+using Bussines.Constants.Messages;
 using Bussines.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Absract;
 using Entities.Concrete;
@@ -12,57 +14,57 @@ namespace Bussines.Concrete
     public class CarManager : ICarService
     {
         ICarDal _carDal;
+        IMapper _mapper;
 
+        public CarManager(ICarDal carDal, IMapper mapper)
+        {
+            _carDal = carDal;
+            _mapper = mapper;
+        }
         public CarManager(ICarDal carDal)
         {
             _carDal = carDal;
+
         }
-
-        [ValidationAspect(typeof(CarValidator))]
-        public IResult Add(Car car)
+        [ValidationAspect(typeof(CarDtoValidator))]
+        public IResult Add(CarDto carDto)
         {
-            //iş kodları
 
-            _carDal.Add(car);
+            ValidationTool.Validate(new CarDtoValidator(), carDto);
+            _carDal.Add(_mapper.Map<Car>(carDto));
             return new SuccessResult(Messages.CarAdded);
         }
 
-        public IResult Delete(Car car)
+
+
+        public IResult Delete(CarDto carDto)
         {
-            _carDal.Delete(car);
+            _carDal.Delete(_mapper.Map<Car>(carDto));
             return new SuccessResult(Messages.CarDeleted);
         }
 
-        public IDataResult<List<Car>> GetAll()
+        public IDataResult<List<CarDto>> GetAll()
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.CarsListed);
+            return new SuccessDataResult<List<CarDto>>(_mapper.Map<List<CarDto>>(_carDal.GetAll()), Messages.CarsListed);
         }
 
-        public IDataResult<Car> GetById(int id)
+        public IDataResult<CarDto> GetById(int id)
         {
-            return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == id), Messages.CarsListed);
+            return new SuccessDataResult<CarDto>(_mapper.Map<CarDto>(_carDal.Get(p => p.Id == id)), Messages.CarsListed);
         }
 
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), Messages.CarsDetailListed);
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), Messages.CarsListed);
         }
 
-        public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
-        {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(car => car.BrandId == brandId), Messages.CarsListedByBrandId);
-        }
+        [ValidationAspect(typeof(CarDtoValidator))]
 
-        public IDataResult<List<Car>> GetCarsByColorId(int colorId)
+        public IResult Update(CarDto carDto)
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(car => car.ColorId == colorId), Messages.CarsListedByColorId);
-        }
-
-        [ValidationAspect(typeof(CarValidator))]
-        public IResult Update(Car car)
-        {
-            _carDal.Update(car);
+            _carDal.Update(_mapper.Map<Car>(carDto));
             return new SuccessResult(Messages.CarUpdated);
+
         }
     }
 }

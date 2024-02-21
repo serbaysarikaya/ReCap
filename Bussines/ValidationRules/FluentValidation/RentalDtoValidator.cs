@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace Bussines.ValidationRules.FluentValidation
 {
-    public class RentalValidator : AbstractValidator<Rental>
+    public class RentalDtoValidator : AbstractValidator<Rental>
     {
-        public RentalValidator()
+        public RentalDtoValidator()
         {
             RuleFor(r => r.CustomerId).NotEmpty();
             RuleFor(r => r.CarId).NotEmpty();

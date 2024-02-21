@@ -1,14 +1,14 @@
 ﻿using Core.Utilities.Results;
-using Entities.Concrete;
+using Entities.DTOs;
 
 namespace Bussines.Absract
 {
     public interface IColorService
     {
-        IDataResult<List<Color>> GetAll();
-        IDataResult<Color> GetById(int id);
-        IResult Add(Color color);
-        IResult Update(Color color);
-        IResult Delete(Color color);
+        IDataResult<List<ColorDto>> GetAll();
+        IResult Add(ColorDto color);
+        IResult Update(ColorDto color);
+        IResult Delete(ColorDto color);
+        IDataResult<ColorDto> GetById(int id);
     }
 }

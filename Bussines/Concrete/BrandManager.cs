@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Bussines.Absract;
-using Bussines.Constants;
+using Bussines.Constants.Messages;
 using Bussines.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;

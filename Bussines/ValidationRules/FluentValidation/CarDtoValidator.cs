@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace Bussines.ValidationRules.FluentValidation
 {
-    public class CarValidator : AbstractValidator<Car>
+    public class CarDtoValidator : AbstractValidator<Car>
     {
-        public CarValidator()
+        public CarDtoValidator()
         {
             RuleFor(ca => ca.CarName).NotEmpty().WithMessage("Boş geçilmez");
             RuleFor(ca => ca.CarName).MinimumLength(2).WithMessage("2 den uzun olmalı");

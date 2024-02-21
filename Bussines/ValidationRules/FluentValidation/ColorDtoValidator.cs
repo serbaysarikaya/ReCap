@@ -1,12 +1,12 @@
-﻿using Bussines.Constants;
+﻿using Bussines.Constants.Messages;
 using Entities.Concrete;
 using FluentValidation;
 
 namespace Bussines.ValidationRules.FluentValidation
 {
-    public class ColorValidator : AbstractValidator<Color>
+    public class ColorDtoValidator : AbstractValidator<Color>
     {
-        public ColorValidator()
+        public ColorDtoValidator()
         {
 
             RuleFor(c => c.Name).NotEmpty();
