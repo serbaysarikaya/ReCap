@@ -11,6 +11,7 @@ The project was developed in C#, in accordance with the multi-layered architectu
 # Used Technologies
 - Restful API
 - Result Types
+- AutoMappers
 - Interceptor
 - Autofac
 - AOP, Aspect Oriented Programming
