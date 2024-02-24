@@ -3,6 +3,13 @@ using Autofac.Extensions.DependencyInjection;
 using Business.DependencyResolvers.Autofac;
 using Bussines.AutoMappers;
 using Bussines.Concrete;
+using Core.DependencyResolvers;
+using Core.Extensions;
+using Core.Utilities.IoC;
+using Core.Utilities.Security.Encyption;
+using Core.Utilities.Security.JWT;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,7 +34,27 @@ builder.Services.AddSwaggerGen();
 //builder.Services.AddSingleton<IBrandService, BrandManager>();
 //builder.Services.AddSingleton<IBrandDal, EfBrandDal>();
 
+var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>(); // Düzeltme burada
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidIssuer = tokenOptions.Issuer,
+            ValidAudience = tokenOptions.Audience,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = SecurityKeyHelper.CreateSecurityKey(tokenOptions.SecurityKey)
+        };
+    });
+
+builder.Services.AddDependencyResolvers(new ICoreModule[]
+{
+    new CoreModule()
+});
 
 
 //AutoMapper
@@ -39,6 +66,8 @@ builder.Services.AddAutoMapper(typeof(CustomerMapper));
 builder.Services.AddAutoMapper(typeof(RentalMapper));
 builder.Services.AddAutoMapper(typeof(UserMapper));
 builder.Services.AddAutoMapper(typeof(CarImageManager));
+builder.Services.AddAutoMapper(typeof(UserOperationClaimMapper));
+builder.Services.AddAutoMapper(typeof(OperationClaimMapper));
 
 builder.Host
        .UseServiceProviderFactory(new AutofacServiceProviderFactory())
@@ -62,6 +91,12 @@ if (app.Environment.IsDevelopment())
 app.UseStaticFiles();
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseAuthentication(); //JWT
+
+app.UseAuthorization();
 
 app.UseAuthorization();
 

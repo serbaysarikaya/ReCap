@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Entities.Concrete;
+using Core.Entities.Concrete;
 using Entities.DTOs;
 
 namespace Bussines.AutoMappers
@@ -10,6 +10,7 @@ namespace Bussines.AutoMappers
         {
             CreateMap<User, UserDto>();
             CreateMap<UserDto, User>();
+
         }
     }
 }

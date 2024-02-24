@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Bussines.Absract;
+using Bussines.BusinessAspects.Autofac;
 using Bussines.Constants.Messages;
 using Bussines.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
@@ -23,11 +24,8 @@ namespace Bussines.Concrete
             _carDal = carDal;
             _mapper = mapper;
         }
-        public CarManager(ICarDal carDal)
-        {
-            _carDal = carDal;
 
-        }
+        [SecuredOperation("admin,car,moderator")]
         [ValidationAspect(typeof(CarDtoValidator))]
         public IResult Add(CarDto carDto)
         {
@@ -38,7 +36,7 @@ namespace Bussines.Concrete
         }
 
 
-
+        [SecuredOperation("admin")]
         public IResult Delete(CarDto carDto)
         {
             _carDal.Delete(_mapper.Map<Car>(carDto));
@@ -60,6 +58,7 @@ namespace Bussines.Concrete
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), CarMessages.CarsListed);
         }
 
+        [SecuredOperation("admin,car")]
         [ValidationAspect(typeof(CarDtoValidator))]
 
         public IResult Update(CarDto carDto)

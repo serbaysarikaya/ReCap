@@ -1,9 +1,9 @@
-﻿using Entities.Concrete;
+﻿using Entities.DTOs;
 using FluentValidation;
 
 namespace Bussines.ValidationRules.FluentValidation
 {
-    public class CarDtoValidator : AbstractValidator<Car>
+    public class CarDtoValidator : AbstractValidator<CarDto>
     {
         public CarDtoValidator()
         {

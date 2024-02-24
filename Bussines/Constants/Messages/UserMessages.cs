@@ -11,5 +11,13 @@
         public static string FirstNameMustContainOnlyLetter = "Ad sadece karakterlerden oluşmalıdır";
         public static string LastNameMustContainOnlyLetter = "Soyad sadece karakterlerden oluşmalıdır";
         public static string Error = "İşlem Başarısız";
+        public static string UserAlreadyExists = "kullanıcı mevcut";
+        public static string AuthorizationDenied = "Authorization Denied";
+        public static string AccessTokenCreated = "token oluşturuldu";
+        public static string SuccessfulLogin = "başarılı giriş";
+        public static string PasswordError = "yanlış şifre";
+        public static string UserNotFound = "kulklanıcı bulunamadı";
+        public static string UserRegistered = "kayıt olundu";
+
     }
 }

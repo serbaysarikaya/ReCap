@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Bussines.Absract;
+using Bussines.BusinessAspects.Autofac;
 using Bussines.Constants.Messages;
 using Bussines.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
@@ -25,6 +26,7 @@ namespace Bussines.Concrete
             _mapper = mapper;
         }
 
+        [SecuredOperation("admin,moderator,rental")]
         [ValidationAspect(typeof(RentalDtoValidator))]
         public IResult Add(RentalDto rentalDto)
         {
@@ -42,6 +44,7 @@ namespace Bussines.Concrete
 
         }
 
+        [SecuredOperation("admin")]
         public IResult Delete(RentalDto rentalDto)
         {
 
@@ -59,6 +62,7 @@ namespace Bussines.Concrete
             return new SuccessDataResult<RentalDto>(_mapper.Map<RentalDto>(_rentalDal.Get(p => p.Id == id)), RentalMessages.RentalsListed);
         }
 
+        [SecuredOperation("admin,rental")]
         [ValidationAspect(typeof(RentalDtoValidator))]
         public IResult Update(RentalDto rentalDto)
         {

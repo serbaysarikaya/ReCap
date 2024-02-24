@@ -1,7 +1,7 @@
 ﻿namespace Bussines.ValidationRules.FluentValidation
 {
     using Bussines.Constants.Messages;
-    using Entities.Concrete;
+    using Core.Entities.Concrete;
     using global::FluentValidation;
     using System.Linq;
     using System.Text.RegularExpressions;
@@ -23,9 +23,6 @@
                 RuleFor(u => u.Email).NotEmpty();
                 RuleFor(u => u.Email).EmailAddress();
 
-                RuleFor(u => u.Password).NotEmpty();
-                RuleFor(u => u.Password).MinimumLength(6);
-                RuleFor(u => u.Password).Must(IsContainLetter).Must(IsContainDigit).Must(IsContainSpecialCharacter).Must(IsContainUppercaseLetter).WithMessage(UserMessages.PasswordRequirements);
 
             }
 

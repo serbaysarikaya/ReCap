@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Bussines.Absract;
+using Bussines.BusinessAspects.Autofac;
 using Bussines.Constants.Messages;
 using Bussines.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
@@ -25,6 +26,7 @@ namespace Bussines.Concrete
             _mapper = mapper;
         }
 
+        [SecuredOperation("admin,modertor,customer")]
         [ValidationAspect(typeof(CustomerDtoValidator))]
         public IResult Add(CustomerDto customerDto)
         {
@@ -32,6 +34,7 @@ namespace Bussines.Concrete
             return new SuccessResult(CustomerMessages.CustomerAdded);
         }
 
+        [SecuredOperation("admin")]
         public IResult Delete(CustomerDto customerDto)
         {
             _customerDal.Delete(_mapper.Map<Customer>(customerDto));
@@ -48,6 +51,7 @@ namespace Bussines.Concrete
             return new SuccessDataResult<CustomerDto>(_mapper.Map<CustomerDto>(_customerDal.Get(p => p.Id == id)), CustomerMessages.CustomersListed);
         }
 
+        [SecuredOperation("admin,customer")]
         [ValidationAspect(typeof(CustomerDtoValidator))]
         public IResult Update(CustomerDto customerDto)
         {

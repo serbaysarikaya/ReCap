@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Bussines.Absract;
+using Bussines.BusinessAspects.Autofac;
 using Bussines.Constants.Messages;
 using Bussines.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
@@ -10,29 +11,27 @@ using Entities.DTOs;
 
 namespace Bussines.Concrete
 {
+
     public class BrandManager : IBrandService
     {
 
         IBrandDal _brandDal;
         IMapper _mapper;
 
-        public BrandManager(IBrandDal brandDal)
-        {
-            _brandDal = brandDal;
-        }
+
         public BrandManager(IBrandDal brandDal, IMapper mapper)
         {
             _brandDal = brandDal;
             _mapper = mapper;
         }
-
+        [SecuredOperation("moderator,brand,admin")]
         [ValidationAspect(typeof(BrandDtoValidator))]
         public IResult Add(BrandDto brandDto)
         {
             _brandDal.Add(_mapper.Map<Brand>(brandDto));
             return new SuccessResult(BrandMessages.BrandAdded);
         }
-
+        [SecuredOperation("admin")]
         public IResult Delete(BrandDto brandDto)
         {
             _brandDal.Delete(_mapper.Map<Brand>(brandDto));
@@ -49,8 +48,8 @@ namespace Bussines.Concrete
             return new SuccessDataResult<BrandDto>(_mapper.Map<BrandDto>(_brandDal.Get(p => p.Id == id)), BrandMessages.BrandsListed);
         }
 
+        [SecuredOperation("brand,admin")]
         [ValidationAspect(typeof(BrandDtoValidator))]
-
         public IResult Update(BrandDto brandDto)
         {
             _brandDal.Update(_mapper.Map<Brand>(brandDto));

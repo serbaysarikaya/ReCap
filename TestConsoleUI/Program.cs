@@ -1,9 +1,4 @@
-﻿using Bussines.Concrete;
-using DataAccess.Concrete.EntityFramework;
-using Entities.DTOs;
-
-
-namespace TestConsoleUI // Note: actual namespace depends on the project name.
+﻿namespace TestConsoleUI // Note: actual namespace depends on the project name.
 {
     internal class Program
     {
@@ -21,49 +16,49 @@ namespace TestConsoleUI // Note: actual namespace depends on the project name.
 
         private static void ColorAddTest()
         {
-            ColorManager colorManager = new ColorManager(new EfColorDal());
-            var result = colorManager.Add(new ColorDto { Name = "Brown" });
+            //ColorManager colorManager = new ColorManager(new EfColorDal());
+            //var result = colorManager.Add(new ColorDto { Name = "Brown" });
 
-            if (result.Success)
-            {
-                Console.WriteLine(result.Message);
-            }
+            //if (result.Success)
+            //{
+            //    Console.WriteLine(result.Message);
+            //}
         }
 
         private static void BrandTest()
         {
-            BrandManager brandManager = new BrandManager(new EfBrandDal());
+            //BrandManager brandManager = new BrandManager(new EfBrandDal());
 
-            var result = brandManager.GetAll();
+            //var result = brandManager.GetAll();
 
-            if (result.Success)
-            {
-                foreach (var brand in result.Data)
-                {
-                    Console.WriteLine(brand.Name + " " + brand.Name);
-                }
-            }
+            //if (result.Success)
+            //{
+            //    foreach (var brand in result.Data)
+            //    {
+            //        Console.WriteLine(brand.Name + " " + brand.Name);
+            //    }
+            //}
         }
 
         private static void CarTest()
         {
-            CarManager carManager = new CarManager(new EfCarDal());
+            //CarManager carManager = new CarManager(new EfCarDal());
 
-            var result = carManager.GetCarDetails();
-            if (result.Success)
-            {
+            //var result = carManager.GetCarDetails();
+            //if (result.Success)
+            //{
 
-                foreach (var car in result.Data)
-                {
+            //    foreach (var car in result.Data)
+            //    {
 
-                    Console.WriteLine($"CarName: {car.CarName} \nColor: {car.ColorName} \nBrand: {car.BrandName} \nPrice: {car.DailyPrice}");
-                    Console.WriteLine(" <<<<<<<----------->>>>>");
-                }
-            }
-            else
-            {
-                Console.WriteLine(result.Message);
-            }
+            //        Console.WriteLine($"CarName: {car.CarName} \nColor: {car.ColorName} \nBrand: {car.BrandName} \nPrice: {car.DailyPrice}");
+            //        Console.WriteLine(" <<<<<<<----------->>>>>");
+            //    }
+            //}
+            //else
+            //{
+            //    Console.WriteLine(result.Message);
+            //}
         }
     }
 }

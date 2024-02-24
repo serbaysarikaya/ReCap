@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Bussines.Absract;
+using Bussines.BusinessAspects.Autofac;
 using Bussines.Constants.Messages;
 using Bussines.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
@@ -16,23 +17,20 @@ namespace Bussines.Concrete
         IColorDal _colorDal;
         IMapper _mapper;
 
-        public ColorManager(IColorDal colorDal)
-        {
-            _colorDal = colorDal;
-        }
+
         public ColorManager(IColorDal colorDal, IMapper mapper)
         {
             _colorDal = colorDal;
             _mapper = mapper;
         }
-
+        [SecuredOperation("admin,color,moderator")]
         [ValidationAspect(typeof(ColorDtoValidator))]
         public IResult Add(ColorDto colorDto)
         {
             _colorDal.Add(_mapper.Map<Color>(colorDto));
             return new SuccessResult(ColorMessages.ColorAdded);
         }
-
+        [SecuredOperation("admin")]
         public IResult Delete(ColorDto colorDto)
         {
             _colorDal.Delete(_mapper.Map<Color>(colorDto));
@@ -48,7 +46,7 @@ namespace Bussines.Concrete
         {
             return new SuccessDataResult<ColorDto>(_mapper.Map<ColorDto>(_colorDal.Get(p => p.Id == id)), ColorMessages.ColorsListed);
         }
-
+        [SecuredOperation("admin,color")]
         [ValidationAspect(typeof(ColorDtoValidator))]
         public IResult Update(ColorDto colorDto)
         {

@@ -1,63 +1,33 @@
-﻿using AutoMapper;
-using Bussines.Absract;
-using Bussines.Constants.Messages;
-using Bussines.ValidationRules.FluentValidation.Business.ValidationRules.FluentValidation;
-using Core.Aspects.Autofac.Validation;
+﻿using Bussines.Absract;
+using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Absract;
-using Entities.Concrete;
-using Entities.DTOs;
 
 namespace Bussines.Concrete
 {
     public class UserManager : IUserService
     {
         IUserDal _userDal;
-        IMapper _mapper;
 
-        public UserManager(IUserDal userDal, IMapper mapper)
+        public UserManager(IUserDal userDal)
         {
             _userDal = userDal;
-            _mapper = mapper;
         }
 
-        [ValidationAspect(typeof(UserDtoValidator))]
-        public IResult Add(UserDto userDto)
+        public IDataResult<List<OperationClaim>> GetClaims(User user)
         {
-            _userDal.Add(_mapper.Map<User>(userDto));
-            return new SuccessResult(UserMessages.UserAdded);
+            return new SuccessDataResult<List<OperationClaim>>(_userDal.GetClaims(user));
         }
 
-        public IResult Delete(UserDto userDto)
+        public IResult Add(User user)
         {
-            _userDal.Delete(_mapper.Map<User>(userDto));
-            return new SuccessResult(UserMessages.UserDeleted);
+            _userDal.Add(user);
+            return new SuccessResult();
         }
 
-        public IDataResult<List<UserDto>> GetAll()
+        public IDataResult<User> GetByMail(string email)
         {
-            return new SuccessDataResult<List<UserDto>>(_mapper.Map<List<UserDto>>(_userDal.GetAll()), UserMessages.UsersListed);
-        }
-
-        public IDataResult<UserDto> GetById(int id)
-        {
-            var result = _mapper.Map<UserDto>(_userDal.Get(p => p.Id == id));
-            if (result == null)
-            {
-                return new ErrorDataResult<UserDto>(UserMessages.Error);
-
-            }
-            return new SuccessDataResult<UserDto>(result, UserMessages.UsersListed);
-
-
-
-        }
-
-        [ValidationAspect(typeof(UserDtoValidator))]
-        public IResult Update(UserDto userDto)
-        {
-            _userDal.Update(_mapper.Map<User>(userDto));
-            return new SuccessResult(UserMessages.UserUpdated);
+            return new SuccessDataResult<User>(_userDal.GetAll(u => u.Email == email).FirstOrDefault());
         }
     }
 }
