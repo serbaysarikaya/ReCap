@@ -4,6 +4,7 @@ using Bussines.BusinessAspects.Autofac;
 using Bussines.Constants;
 using Bussines.Constants.Messages;
 using Bussines.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Helpers.FileHelper;
@@ -29,6 +30,7 @@ namespace Bussines.Concrete
         }
         [SecuredOperation("moderator,CarImage,admin")]
         [ValidationAspect(typeof(CarImageValidator))]
+        [CacheRemoveAspect("ICarImageDal.Get")]
         public IResult Add(IFormFile file, CarImageDto carImageDto)
         {
             var result = BusinessRules.Run(checkCarImagesLimit(carImageDto.CarId));
@@ -50,12 +52,12 @@ namespace Bussines.Concrete
             _carImageDal.Delete(_mapper.Map<CarImage>(carImageDto));
             return new SuccessResult(CarImageMessages.CarImageDeleted);
         }
-
+        [CacheAspect]
         public IDataResult<List<CarImageDto>> GetAll()
         {
             return new SuccessDataResult<List<CarImageDto>>(_mapper.Map<List<CarImageDto>>(_carImageDal.GetAll()), CarImageMessages.CarImagesListed);
         }
-
+        [CacheAspect]
         public IDataResult<List<CarImageDto>> GetByCarId(int carId)
         {
             var result = BusinessRules.Run(checkCarImage(carId));
@@ -76,6 +78,7 @@ namespace Bussines.Concrete
         }
         [SecuredOperation("CarImage,admin")]
         [ValidationAspect(typeof(CarImageValidator))]
+        [CacheRemoveAspect("ICarImageDal.Get")]
         public IResult Update(IFormFile file, CarImageDto carImageDto)
         {
             carImageDto.ImagePath = _fileHelper.Update(file, PathConstants.ImagesPath + carImageDto.ImagePath, PathConstants.ImagesPath);
