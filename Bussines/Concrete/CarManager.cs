@@ -4,6 +4,7 @@ using Bussines.BusinessAspects.Autofac;
 using Bussines.Constants.Messages;
 using Bussines.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
@@ -45,6 +46,7 @@ namespace Bussines.Concrete
             return new SuccessResult(CarMessages.CarDeleted);
         }
         [CacheAspect]
+        [PerformanceAspect(5)]
         public IDataResult<List<CarDto>> GetAll()
         {
             return new SuccessDataResult<List<CarDto>>(_mapper.Map<List<CarDto>>(_carDal.GetAll()), CarMessages.CarsListed);
