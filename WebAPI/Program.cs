@@ -34,6 +34,17 @@ builder.Services.AddSwaggerGen();
 //builder.Services.AddSingleton<IBrandService, BrandManager>();
 //builder.Services.AddSingleton<IBrandDal, EfBrandDal>();
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", builder =>
+    {
+        builder.WithOrigins("http://localhost:4200") // Tüm originlere izin vermek istiyorsanýz
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
 var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>(); // Düzeltme burada
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -87,6 +98,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("CorsPolicy");
 
 app.UseStaticFiles();
 
