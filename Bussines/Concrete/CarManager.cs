@@ -51,15 +51,16 @@ namespace Bussines.Concrete
         {
             return new SuccessDataResult<List<CarDto>>(_mapper.Map<List<CarDto>>(_carDal.GetAll()), CarMessages.CarsListed);
         }
+
+        public IDataResult<CarDto> GetByCarId(int id)
+        {
+            return new SuccessDataResult<CarDto>(_mapper.Map<CarDto>(_carDal.Get(c => c.Id == id)));
+        }
+
         [CacheAspect]
         public IDataResult<CarDto> GetById(int id)
         {
             return new SuccessDataResult<CarDto>(_mapper.Map<CarDto>(_carDal.Get(p => p.Id == id)), CarMessages.CarsListed);
-        }
-        [CacheAspect]
-        public IDataResult<List<CarDetailDto>> GetCarDetails()
-        {
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), CarMessages.CarsListed);
         }
 
         [SecuredOperation("admin,car")]
@@ -70,6 +71,32 @@ namespace Bussines.Concrete
             _carDal.Update(_mapper.Map<Car>(carDto));
             return new SuccessResult(CarMessages.CarUpdated);
 
+        }
+
+        [CacheAspect]
+        public IDataResult<List<CarDetailDto>> GetCarDetails()
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), CarMessages.CarsListed);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByBrandId(int brandId)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetailsByBrandId(brandId), CarMessages.CarsDetailListed);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByCarId(int carId)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetailsByCarId(carId), CarMessages.CarsDetailListed);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByColorAndByBrand(int colorId, int brandId)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetailsByColorAndByBrand(colorId, brandId), CarMessages.CarsDetailListed);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByColorId(int colorId)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetailsByColorId(colorId), CarMessages.CarsDetailListed);
         }
     }
 }

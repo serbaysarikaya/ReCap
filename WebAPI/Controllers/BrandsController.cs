@@ -25,6 +25,7 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
@@ -37,8 +38,6 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-
-
         [HttpPost("add")]
         public IActionResult Add(BrandDto brandDto)
         {
@@ -49,7 +48,6 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
-
 
         [HttpPut("update")]
         public IActionResult Update(BrandDto brandDto)

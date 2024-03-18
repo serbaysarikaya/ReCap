@@ -15,6 +15,7 @@ namespace Bussines.Concrete
     public class RentalManager : IRentalService
     {
         IRentalDal _rentalDal;
+        ICarDal _carDal;
         IMapper _mapper;
 
         public RentalManager(IRentalDal rentalDal)
@@ -66,6 +67,13 @@ namespace Bussines.Concrete
             return new SuccessDataResult<RentalDto>(_mapper.Map<RentalDto>(_rentalDal.Get(p => p.Id == id)), RentalMessages.RentalsListed);
         }
 
+        public IDataResult<List<RentalDetailDto>> GetRentalsDetails()
+        {
+            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalsDetails());
+        }
+
+
+
         [SecuredOperation("admin,rental")]
         [ValidationAspect(typeof(RentalDtoValidator))]
         [CacheRemoveAspect("IRentalDal.Get")]
@@ -76,5 +84,30 @@ namespace Bussines.Concrete
 
 
         }
+        public List<int> CalculateTotalPrice(DateTime rentDate, DateTime returnDate, int carId)
+        {
+            List<int> totalAmount = new List<int>();
+
+            var dateDifference = (returnDate - rentDate).Days;
+
+            var dailyCarPrice = decimal.ToInt32(_mapper.Map<CarDto>(_carDal.Get(c => c.Id == carId)).DailyPrice);
+
+            var totalPrice = dateDifference * dailyCarPrice;
+            totalAmount.Add(totalPrice);
+
+            return totalAmount;
+
+        }
+
+        public IResult IsCarAvaible(int carId)
+        {
+            var result = _rentalDal.GetAll(r => r.CarId == carId).Any();
+            if (result)
+            {
+                return new ErrorResult();
+            }
+            return new SuccessResult();
+        }
+
     }
 }

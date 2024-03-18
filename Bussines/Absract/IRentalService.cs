@@ -10,5 +10,8 @@ namespace Bussines.Absract
         public IResult Update(RentalDto rentalDto);
         public IDataResult<List<RentalDto>> GetAll();
         public IDataResult<RentalDto> GetById(int id);
+        public IDataResult<List<RentalDetailDto>> GetRentalsDetails();
+        IResult IsCarAvaible(int carId);
+        List<int> CalculateTotalPrice(DateTime rentDate, DateTime returnDate, int carId);
     }
 }
