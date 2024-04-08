@@ -79,6 +79,7 @@ builder.Services.AddAutoMapper(typeof(UserMapper));
 builder.Services.AddAutoMapper(typeof(CarImageManager));
 builder.Services.AddAutoMapper(typeof(UserOperationClaimMapper));
 builder.Services.AddAutoMapper(typeof(OperationClaimMapper));
+builder.Services.AddAutoMapper(typeof(PaymentMapper));
 
 builder.Host
        .UseServiceProviderFactory(new AutofacServiceProviderFactory())

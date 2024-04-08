@@ -80,5 +80,31 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+
+        [HttpGet("iscaravaible")]
+        public IActionResult IsCarAvaible(int carId)
+        {
+            var result = _rentalService.IsCarAvaible(carId);
+
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("totalprice")]
+        public IActionResult TotalPrice(object totalAmountInfo)
+        {
+
+            // var result = _rentalService.CalculateTotalPrice(rentDate, returnDate,carId);
+            //if (result!=null)
+            //{
+            return Ok();
+            //}
+            //return BadRequest(result);
+
+        }
+
     }
 }
